@@ -78,5 +78,6 @@ def immoweb_etl():
 
     data_to_csv(data_list)
     
+    
 
 test_dag = immoweb_etl()
