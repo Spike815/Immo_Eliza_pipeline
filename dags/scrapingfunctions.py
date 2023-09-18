@@ -5,7 +5,7 @@ from requests import Session
 import re
 from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
-
+from pathlib import Path
 
 def get_house_info(url,session):
    """
@@ -211,8 +211,6 @@ def scraper(final_url_list):
             for item in futures:
                try:
                   data_list.append(item.result())
-                  percent = 100*added/len(final_url_list)
-                  print(f"Data being processed : {round(percent,2)}%", end="\r")
                except:
                   i = futures.index(item)
                   print(f"There is an error while scraping this website:{final_url_list[i]}")
@@ -222,9 +220,9 @@ def scraper(final_url_list):
     return data_list
 
 
-
-
-# def data_to_csv(data_list):
-#     df = pd.DataFrame(data_list)
-#     df.to_csv('output.csv', index=False)
-
+def data_to_csv(data_list,extension):
+   df = pd.DataFrame(data_list)
+   path = Path.cwd() / extension
+   if not path.exists():   
+      path.parent.mkdir(parents=True, exist_ok=True)
+   df.to_csv(path)
