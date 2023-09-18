@@ -33,12 +33,18 @@ def immoweb_etl():
     
     @task()
     def get_all_urls_task(page):
-        get_all_urls(page)
+        return get_all_urls(page)
     
     @task()
     def data_to_csv_task(data_list,extention):
         from scrapingfunctions import data_to_csv
         data_to_csv(data_list, extention)
+
+    @task()
+    def cleaning_for_visual_task(data_list):
+        data = pd.DataFrame(data_list)
+        from cleaning_for_visual import cleaning_data
+        cleaning_data(data)
 
     # Call get_all_urls to get the list of URLs
     url_list = get_all_urls_task(page=1)
@@ -47,6 +53,10 @@ def immoweb_etl():
     data_list = scraper_task(url_list)
 
     data_to_csv_task(data_list,extention="urls/test.csv")
+
+
+    # Clean the data for visualization
+    cleaning_for_visual_task(data_list)
     
     
 
