@@ -9,7 +9,7 @@ def cleaning_data(data):
     data["postalCode"]=data["postalCode"].astype(str)
 
     #import the exel file of postalcode and clean the data
-    path = Path.cwd() / "dags/utls/Belgium_Postalcode.csv"
+    path = Path.cwd() / "working/utls/Belgium_Postalcode.csv"
     post_code = pd.read_csv(path)
 
     #get population info

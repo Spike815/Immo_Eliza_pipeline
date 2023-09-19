@@ -232,7 +232,7 @@ services:
           echo
         fi
         mkdir -p /sources/logs /sources/dags /sources/plugins /sources/working
-        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins}
+        chown -R "${AIRFLOW_UID}:0" /sources/{logs,dags,plugins,working}
         exec /entrypoint airflow version
     # yamllint enable rule:line-length
     environment:
