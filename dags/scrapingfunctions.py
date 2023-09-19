@@ -6,6 +6,8 @@ import re
 from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 from pathlib import Path
+from io import StringIO
+from upload_to_s3 import upload_file, s3_obj
 
 def get_house_info(url,session):
    """
@@ -123,7 +125,6 @@ def get_house_info(url,session):
       house_info['garden'] = properties['hasGarden']
    except:
       house_info['garden'] = 0
-
    try:
       house_info['garden area'] = properties['gardenSurface']
    except:
@@ -222,7 +223,7 @@ def scraper(final_url_list):
 
 def data_to_csv(data_list,extension):
    df = pd.DataFrame(data_list)
-   path = Path.cwd() / extension
-   if not path.exists():   
-      path.parent.mkdir(parents=True, exist_ok=True)
-   df.to_csv(path)
+   csv_buffer = StringIO()
+   df.to_csv(csv_buffer, index=False)
+   s3=s3_obj()
+   s3.put_object(Bucket='immostudy-temp',Key=f"csv_files/{extension}",Body=csv_buffer.getvalue())

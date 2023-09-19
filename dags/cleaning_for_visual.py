@@ -51,5 +51,5 @@ def cleaning_data(data):
     data = data[data["total property area"]>0]
     data["price per sqr"]=data["price"]/data["total property area"]
 
-    print(data.head(5))
+    return data
 
