@@ -1,16 +1,8 @@
 from airflow.decorators import dag, task
 from datetime import datetime, timedelta
-from pathlib import Path
-from bs4 import BeautifulSoup
-import requests
-import os
-from requests import Session
-from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
-from pathlib import Path
 from dotenv import load_dotenv
-import boto3
-from io import StringIO
+
 
 default_args = {
     'owner': 'bo',

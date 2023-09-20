@@ -34,7 +34,7 @@ def build_ml(df):
     trans_2 = ColumnTransformer([('scale', MinMaxScaler(),slice(0,len(X)))], 
                                 remainder='passthrough')
     
-
+    # build up xgboost model
     model= XGBRegressor()
     pipe = Pipeline([('trans_1',trans_1),
                     ("trans_2",trans_2),
