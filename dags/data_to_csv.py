@@ -5,18 +5,13 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-
-def configure():
-    load_dotenv("../env")
-    
+from keys import get_access,get_secret
 def s3_obj():
-    configure()
     s3 = boto3.client(
         service_name='s3',
         region_name='eu-west-3',
-        aws_access_key_id=os.getenv('ACCESS'),
-        aws_secret_access_key=os.getenv('SECRET')
+        aws_access_key_id=get_access,
+        aws_secret_access_key=get_secret
     )
     return s3
 
