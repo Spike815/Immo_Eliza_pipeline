@@ -3,6 +3,7 @@ import boto3
 from botocore.exceptions import ClientError
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 def upload_file(file_name, bucket, object_name=None):
     """Upload a file to an S3 bucket
@@ -26,16 +27,18 @@ def upload_file(file_name, bucket, object_name=None):
         return False
     return True
 
+def configure():
+    load_dotenv()
+
 def s3_obj():
+    configure()
     s3 = boto3.client(
         service_name='s3',
         region_name='eu-west-3',
-        aws_access_key_id='AKIAQ274YNO4HMJYVEFF',
-        aws_secret_access_key='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'
+        aws_access_key_id=f"{os.getenv('ACCESS')}",
+        aws_secret_access_key=f"{os.getenv('SECRET')}"
     )
     return s3
-
-
 # file = Path("working/utls/Belgium_Postalcode.csv")
 # s3.Bucket('immostudy-temp').upload_file(Filename=file, Key=f"csv_files/{file.name}")
 

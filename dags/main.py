@@ -3,9 +3,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from bs4 import BeautifulSoup
 import requests
-import json
+import os
 from requests import Session
-import re
 from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 from pathlib import Path
@@ -16,6 +15,8 @@ default_args = {
     'retires': 5,
     'retry_delay':timedelta(minutes=5)
 }
+
+
 
 @dag(dag_id = 'dag_immo_pipeline_v1',
      default_args=default_args,
