@@ -28,18 +28,21 @@ def upload_file(file_name, bucket, object_name=None):
     return True
 
 def configure():
-    load_dotenv()
+    load_dotenv("../env")
 
 def s3_obj():
     configure()
     s3 = boto3.client(
         service_name='s3',
         region_name='eu-west-3',
-        aws_access_key_id=f"{os.getenv('ACCESS')}",
-        aws_secret_access_key=f"{os.getenv('SECRET')}"
+        aws_access_key_id=os.getenv('ACCESS'),
+        aws_secret_access_key=os.getenv('SECRET')
     )
     return s3
+
+
+# s3 =s3_obj()
 # file = Path("working/utls/Belgium_Postalcode.csv")
-# s3.Bucket('immostudy-temp').upload_file(Filename=file, Key=f"csv_files/{file.name}")
+# s3.upload_file(Bucket = "",Filename=file, Key=f"csv_files/{file.name}")
 
 # s3.Bucket('immostudy-temp').download_file(f'csv_files/{file.name}', 'test.csv')

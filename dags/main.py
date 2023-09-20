@@ -8,13 +8,16 @@ from requests import Session
 from concurrent.futures import ThreadPoolExecutor
 import pandas as pd
 from pathlib import Path
-
+from dotenv import load_dotenv
+import boto3
+from io import StringIO
 
 default_args = {
     'owner': 'bo',
     'retires': 5,
     'retry_delay':timedelta(minutes=5)
 }
+
 
 
 
@@ -37,8 +40,8 @@ def immoweb_etl():
     
     @task()
     def data_to_csv_task(data_list,extention):
-        from scrapingfunctions import data_to_csv
-        data_to_csv(data_list, extention)
+        from data_to_csv import data_to_csv
+        data_to_csv(data_list,extention)
 
     @task()
     def cleaning_for_visual_task(data_list):
