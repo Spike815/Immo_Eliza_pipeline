@@ -41,9 +41,11 @@ def immoweb_etl():
         data_to_csv(data_list,extention)
 
     @task()
-    def cleaning_for_visual_task(data_list):
-        data = pd.DataFrame(data_list)
+    def cleaning_for_visual_task():
         from cleaning_for_visual import cleaning_data
+        from data_to_csv import csv_to_data
+        raw_data = csv_to_data("csv_files/raw_data.csv")
+        data = pd.read_csv(raw_data['Body'])
         return cleaning_data(data)
 
     # Call get_all_urls to get the list of URLs
@@ -56,7 +58,7 @@ def immoweb_etl():
     data_to_csv_task(data_list,extention="raw_data.csv")
 
     # Clean the data for visualization and save in the csv bucket
-    data_to_visual=cleaning_for_visual_task(data_list)
+    data_to_visual=cleaning_for_visual_task()
     data_to_csv_task(data_to_visual,extention="data_for_visual.csv")
     
     
