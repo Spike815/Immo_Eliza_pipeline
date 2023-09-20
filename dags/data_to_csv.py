@@ -12,7 +12,7 @@ def configure():
 
 
 def s3_obj():
-    configure()
+    # configure()
     s3 = boto3.client(
         service_name='s3',
         region_name='eu-west-3',
@@ -22,10 +22,9 @@ def s3_obj():
     return s3
 
 
-def data_to_csv(data_list, extention):
-    df = pd.DataFrame(data_list)
+def data_to_csv(data, extention):
     csv_buffer = StringIO()
-    df.to_csv(csv_buffer, index=False)
+    data.to_csv(csv_buffer, index=False)
     s3=s3_obj()
     s3.put_object(Bucket='immostudy-temp',Key=f"csv_files/{extention}",Body=csv_buffer.getvalue())
 
