@@ -1,6 +1,6 @@
 import pandas as pd
-from pathlib import Path
 import numpy as np
+from data_to_csv import csv_to_data
 
 def cleaning_data(data):
     #initial cleaning
@@ -9,8 +9,10 @@ def cleaning_data(data):
     data["postalCode"]=data["postalCode"].astype(str)
 
     #import the exel file of postalcode and clean the data
-    path = Path.cwd() / "working/utls/Belgium_Postalcode.csv"
-    post_code = pd.read_csv(path)
+    path ="csv_files/Belgium_Postalcode.csv"
+    s3_obj=csv_to_data(path)
+
+    post_code = pd.read_csv(s3_obj["Body"])
 
     #get population info
     population_info={"Province":["Antwerpen","Oost-Vlaanderen","Vlaams-Brabant","Limburg","Hainaut","West-Vlaanderen","Liège","Luxembourg","Namur","Brabant wallon","Brussel"],

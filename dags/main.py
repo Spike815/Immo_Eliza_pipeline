@@ -18,9 +18,6 @@ default_args = {
     'retry_delay':timedelta(minutes=5)
 }
 
-
-
-
 @dag(dag_id = 'dag_immo_pipeline_v1',
      default_args=default_args,
      start_date = datetime(2023,9,13,23,0,0),
