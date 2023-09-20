@@ -29,38 +29,30 @@ def immoweb_etl():
     @task()
     def scraper_task(final_url_list): 
         from scrapingfunctions import scraper
-        return scraper(final_url_list)
+        from data_to_csv import data_to_csv
+        data_list=scraper(final_url_list)
+        data_to_csv(data_list,extention="raw_data.csv")
     
     @task()
     def get_all_urls_task(page):
         return get_all_urls(page)
     
     @task()
-    def data_to_csv_task(data_list,extention):
-        from data_to_csv import data_to_csv
-        data_to_csv(data_list,extention)
-
-    @task()
     def cleaning_for_visual_task():
         from cleaning_for_visual import cleaning_data
-        from data_to_csv import csv_to_data
+        from data_to_csv import csv_to_data,data_to_csv
         raw_data = csv_to_data("csv_files/raw_data.csv")
         data = pd.read_csv(raw_data['Body'])
-        return cleaning_data(data)
+        cleaned_data=cleaning_data(data)
+        data_to_csv(cleaned_data,"cleaned_data.csv")
 
-    # Call get_all_urls to get the list of URLs
-    url_list = get_all_urls_task(page=1)
-
-    # Call scraper to scrape the data from the URLs
-    data_list = scraper_task(url_list)
-
-    #save data in s3 bucket
-    data_to_csv_task(data_list,extention="raw_data.csv")
+    # Call scraper to scrape the data from the URLs, and save the result to raw_data.csv in s3
+    #t1 is to call function get_all_urls_task()
+    t2 = scraper_task(get_all_urls_task(page=3))
 
     # Clean the data for visualization and save in the csv bucket
-    data_to_visual=cleaning_for_visual_task()
-    data_to_csv_task(data_to_visual,extention="data_for_visual.csv")
-    
-    
+    t3 = cleaning_for_visual_task()
+
+    t2 >>t3 
 
 test_dag = immoweb_etl()

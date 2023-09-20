@@ -4,8 +4,15 @@ import logging
 import boto3
 from botocore.exceptions import ClientError
 from keys import get_access,get_secret
+from dotenv import load_dotenv
+import os
+
+def configure():
+    load_dotenv("../.env")
+
 
 def s3_obj():
+    configure()
     s3 = boto3.client(
         service_name='s3',
         region_name='eu-west-3',
