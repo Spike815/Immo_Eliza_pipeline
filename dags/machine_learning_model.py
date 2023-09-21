@@ -48,3 +48,4 @@ def build_ml(df):
         key="ml_model/XGB.joblib"
         s3.put_object(Body=fp.read(),Bucket = 'immostudy-temp',Key=key)
     
+build_ml()
