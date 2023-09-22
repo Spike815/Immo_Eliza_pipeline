@@ -13,7 +13,8 @@ default_args = {
 @dag(dag_id = 'dag_immo_pipeline_v1',
      default_args=default_args,
      start_date = datetime(2023,9,13,23,0,0),
-     schedule='@daily')
+     schedule='@daily',
+     catchup=False)
 def immoweb_etl():  
     from data_to_csv import csv_to_data,data_to_csv
     from scrapingfunctions import get_url,get_all_urls
@@ -62,7 +63,7 @@ def immoweb_etl():
 
 
     # Call scraper to scrape the data from the URLs, and save the result to raw_data.csv in s3
-    t1 = get_all_urls_task(page = 1)
+    t1 = get_all_urls_task(page = 300)
 
     t2 = scraper_task()
 

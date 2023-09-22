@@ -1,4 +1,5 @@
 import pandas as pd
+from machine_learning_model import build_ml
 
 #define the function to remove outliners
 def remove_outliners(df,columns,n_std):
@@ -46,5 +47,6 @@ def cleaning_for_ml(df):
     return df
 
 
-
-
+df = pd.read_csv("/home/bo/study/becode/Immoweb_application/cleaned_data.csv")
+df=cleaning_for_ml(df)
+build_ml(df)

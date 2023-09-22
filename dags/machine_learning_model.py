@@ -8,6 +8,7 @@ import tempfile
 from upload_to_s3 import s3_obj
 
 def build_ml(df):
+    df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
     columns_to_drop = ["id","locality","street","price","type of sale"
                    ,"Density","Area(km2)",
                    "Population","price per sqr","open fire","postalCode","Gemeente",
@@ -21,6 +22,7 @@ def build_ml(df):
         column = column.replace(" ","_")
         column_list.append(column)
     X.columns = column_list
+    print(column_list)
     X = X.to_numpy()
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.2,random_state=21)
 
@@ -48,4 +50,3 @@ def build_ml(df):
         key="ml_model/XGB.joblib"
         s3.put_object(Body=fp.read(),Bucket = 'immostudy-temp',Key=key)
     
-build_ml()
