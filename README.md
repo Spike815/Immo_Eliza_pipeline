@@ -7,7 +7,7 @@ In this project, I used Apache Airflow to automate the process of scraping real 
 
 - I utilized Apache Airflow as a scheduler to regularly scrape real estate property listings from immoweb.be. This automated process ensures that the data remains up-to-date.
 - The collected data undergoes a rigorous cleaning process to remove inconsistencies and prepare it for further analysis.
-- 
+
 
 ### Data Storage with Versioning
 
