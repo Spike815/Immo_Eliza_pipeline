@@ -21,3 +21,7 @@ This project streamlines the data pipeline for real estate data, making it readi
 
 - The cleaned and updated real estate data is fed into an XGBoost machine learning model.
 - This integration allows the XGBoost model to continually learn from the latest data, improving its accuracy over time.
+
+### Timeline
+
+-The whole project takes 6 working days to finish.
